@@ -7,15 +7,17 @@ ports = [21, 22, 23, 25, 53, 80, 110, 139, 143, 443]
 
 print(f"\nScanning target: {target}\n")
 
-for port in ports:
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.settimeout(1)
+for port in ports:    	
+	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+	s.settimeout(0.5)   	
+	try:    	
+		s.connect((target, port))  
+	except:   
+		continue		
+	else:
+		print(f"Port {port} is OPEN") 
+	finally:     		    	
+		s.close()
     
-    result = s.connect_ex((target, port))
     
-    if result == 0:
-        print(f"Port {port} is OPEN")
-    
-    s.close()
-
 print("\nScanning Completed!")
